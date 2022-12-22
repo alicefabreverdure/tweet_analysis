@@ -8,9 +8,4 @@ COPY . .
 RUN pip install -r requirements.txt
 # Command to be executed when the container is launched
 ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-<<<<<<< Updated upstream
 #last version Entrypoint instead of CMD
-=======
-#Last version-- instead of CMD Entrypoint
->>>>>>> Stashed changes
-
