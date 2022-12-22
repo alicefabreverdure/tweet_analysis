@@ -40,3 +40,53 @@ amount = 0.125
 tweet_data.iloc[0:int(len(tweet_data)*0.8*amount)].to_csv(data_dir + '/train.csv', sep='\t', index=False, header=False)
 tweet_data.iloc[int(len(tweet_data)*0.8*amount):int(len(tweet_data)*0.9*amount)].to_csv(data_dir + '/test.csv', sep='\t', index=False, header=False)
 tweet_data.iloc[int(len(tweet_data)*0.9*amount):int(len(tweet_data)*1.0*amount)].to_csv(data_dir + '/dev.csv', sep='\t', index=False, header=False)
+
+# Memory management
+del tweet_data
+import gc; gc.collect()
+
+# Load the data into Corpus format
+from flair.data import Corpus
+from flair.datasets import CSVClassificationCorpus
+from pathlib import Path
+
+#corpus = flair.datasets(Path(data_dir), test_file='test.csv', dev_file='dev.csv', train_file='train.csv')
+column_name_map = {1: 'text', 0: 'label'}
+corpus: Corpus = CSVClassificationCorpus(Path(data_dir),
+                              column_name_map,
+                              skip_header=True,
+                              delimiter='\t',
+                              label_type='topic')
+# Make label dictionary
+label_dict = corpus.make_label_dictionary(label_type='topic')
+
+# Load embeddings
+from flair.embeddings import WordEmbeddings, FlairEmbeddings
+
+word_embeddings = [WordEmbeddings('glove'),
+#                    FlairEmbeddings('news-forward'),
+#                    FlairEmbeddings('news-backward')
+                  ]
+
+# Initialize embeddings
+from flair.embeddings import DocumentRNNEmbeddings
+
+document_embeddings = DocumentRNNEmbeddings(word_embeddings, hidden_size=512, reproject_words=True, reproject_words_dimension=256)
+
+# Create model
+from flair.models import TextClassifier
+
+classifier = TextClassifier(document_embeddings, label_dictionary=label_dict,label_type='topic')
+
+# Create model trainer
+from flair.trainers import ModelTrainer
+
+trainer = ModelTrainer(classifier, corpus)
+
+# Train the model
+trainer.train('model-saves',
+              learning_rate=0.1,
+              mini_batch_size=32,
+              anneal_factor=0.5,
+              patience=8,
+              max_epochs=200)
