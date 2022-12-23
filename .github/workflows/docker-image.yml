@@ -21,7 +21,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag alicefabreverdure/test1:latest alicefabreverdure/tweet_analysis:latest
+      run: docker build . --file Dockerfile --tag alicefabreverdure/test1:latest
 
 
     - name: Docker Push
