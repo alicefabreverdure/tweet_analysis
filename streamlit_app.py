@@ -5,7 +5,6 @@ import pandas as pd
 import streamlit as st
 from flair.data import Sentence
 from flair.models import TextClassifier
-from twitterscraper import query_tweets
 import base64
 
 #page_bg_img = '''

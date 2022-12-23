@@ -1,5 +1,4 @@
 
 pandas==1.5.2
 streamlit==1.16.0
-twitterscraper==1.6.1
 flair @ git+https://github.com/flairNLP/flair@3b91e8ce475a95f31cdc071a55e05491558f38f2
