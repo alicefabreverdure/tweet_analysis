@@ -1,3 +1,6 @@
+# build and run docker image
+# publish a docker image to Docker Hub using a GitHub Action
+
 name: Docker Image CI
 
 on:
