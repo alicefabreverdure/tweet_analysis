@@ -7,6 +7,9 @@ from flair.data import Sentence
 from flair.models import TextClassifier
 import base64
 
+import tweepy as tp
+from tweepy import OAuthHandler
+
 #page_bg_img = '''
 #<style>
 #p {
