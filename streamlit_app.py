@@ -105,7 +105,7 @@ if query != '' and query != '#':
         tweets_df = pd.DataFrame(attributes_container, columns=columns)
         tweets_df["Address"]= query
 
-st.write(tweets_df)
+    st.write(tweets_df)
 
 st.caption('Authors : Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verdure')
 
