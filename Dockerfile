@@ -6,7 +6,6 @@ WORKDIR /app
 COPY . .
 # Installation of code dependencies
 RUN pip install -r requirements.txt
-RUN git lfs pull -I tweet_analysis/best-model.pt
 # Command to be executed when the container is launched
 ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 #last version Entrypoint instead of CMD
