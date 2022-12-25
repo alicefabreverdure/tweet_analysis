@@ -1,6 +1,3 @@
-#taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
-import requests
-
 def download_file_from_google_drive(id, destination):
     URL = "https://docs.google.com/uc?export=download"
 
