@@ -20,6 +20,10 @@ TWEET ANALYSIS/
 ├── .vscode/
 ├── .gitattributes
 │
+├── images/
+│   ├── screenshot1.jpg
+│   └── screenshot2.jpg
+|
 ├── model-saves/
 │   ├── best-model.pt
 │   ├── dev.tsv
@@ -65,6 +69,7 @@ For the model we used the 'TextClassifier' model from flair library(check sectio
 For the preprocessing of the hashtags/tweets we created a function and to load the models we used the function from the streamlit library. (Check file streamit_app.py for more details on the code)
 
 After this procedure,we show the predictions on the interface by labeling the tweet as positive or negative sentiment.
+(check section 6, the example for an illustration of the application)
 
 ### 2. the model
 
@@ -96,6 +101,7 @@ we lunch the test by the command:
 ```
 pytest
 ```
+
 ### 5. The image and container
 
 To dockerize the app, we need to create a docker file. (assuming that you already have docker desktop)
