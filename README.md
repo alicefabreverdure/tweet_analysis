@@ -129,5 +129,4 @@ docker run -d -p 8501:8501 alicefabreverdure/tweet_analysis
 This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be downloaded in docker hub. In local docker, git push lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of push. A second way to solve this problem is by using a google drive link but unfortunately it didn't work also.  
 
 ### 6. Example
-![Algorithm schema](./GitHub/Screenshot1.jpg)
-\GitHub
+![Algorithm schema](./images/Screenshot1.jpg)
