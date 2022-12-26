@@ -81,8 +81,8 @@ query = st.text_input('Query:', '#')
 
 if query != '' and query != '#':
     with st.spinner(f'Searching for and analyzing {query}...'):
-        # initialisation 
-        consumer_key = "neFjQUU9CfE9gFgBK2X4yro2j" # API/Consumer key 
+        # initialisation
+        consumer_key = "neFjQUU9CfE9gFgBK2X4yro2j" # API/Consumer key
         consumer_secret = "orhQzemgSx07sMV9lTK197j7ZTXrojnDwdGMQdDA1RUl2Gli5h" # API/Consumer Secret Key
         access_token = "1204779047252889609-0dCHKl8ZNqCLLmJCBuqP1rULpXYLLY"    # Access token key
         access_token_secret = "kiY8AIFf4MBOBQGxTbNf3DRCmYYklZT0e87m5SClYvnnX" # Access token Secret key
@@ -92,7 +92,7 @@ if query != '' and query != '#':
         auth.set_access_token(access_token, access_token_secret)
         api = tp.API(auth)
         # Get English tweets from the past 4 weeks
-        no_of_tweets = 100 # change to unlimited 
+        no_of_tweets = 100 # change to unlimited
 
         #The number of tweets we want to retrieved from the search
         tweets = api.search_tweets(q=query, count=no_of_tweets)
@@ -101,11 +101,33 @@ if query != '' and query != '#':
 
         # On def les colonnes du dataframe
         columns = ["ID","Geo","Coordinates","Place","User", "Date Created", "Number of Likes", "Source of Tweet", "Tweet", "Quoted", "Lang"]
-        #On créé un Df:  
+        #On créé un Df:
         tweets_df = pd.DataFrame(attributes_container, columns=columns)
         tweets_df["Address"]= query
 
+        pos_vs_neg = {'__label__0': 0, '__label__4': 0}
+
+        # Add data for each tweet
+        for tweet in tweets:
+            # Skip iteration if tweet is empty
+            if tweet.text in ('', ' '):
+                continue
+            # Make predictions
+            sentence = Sentence(preprocess(tweet.text))
+            classifier.predict(sentence)
+            sentiment = sentence.labels[0]
+            # Keep track of positive vs. negative tweets
+            pos_vs_neg[sentiment.value] += 1
+            # Append new data
+            tweets_df = tweets_df.append({'tweet': tweet.text, 'predicted-sentiment': sentiment}, ignore_index=True)
+try:
     st.write(tweets_df)
+    try:
+        st.write('Percentage positive tweet:', pos_vs_neg['__label__4'], '%')
+        st.write('Percentage negative tweet:', pos_vs_neg['__label__0'],'%')
+    except ZeroDivisionError: # if no negative tweets
+        st.write('All postive tweets')
+except NameError: # if no queries have been made yet
+    pass
 
 st.caption('Authors : Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verdure')
-
