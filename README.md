@@ -15,8 +15,11 @@ Project carried out as part of the course of Cloud Computing 2022.
 
 In this project, we wanted to create an application that scrap hashtags/tweets of a topic and reveal the sentiments deriving from these hashtags.
 
-To fullfill our goals, we used streamlit to create an interface to show the sentiments of the tweet. 
-The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the modele.py file). 
+It is a Natural Language Processing(NLP) Problem where Sentiment Analysis is done by Classifying positive and negative tweets by machine learning models for classification, text mining, text analysis and data analysis.
+
+To fullfill our goals, we used streamlit to create an interface to show the sentiments of the tweet.(More details are provided in section 1) 
+The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the modele.py file, see section 2).
+We dockerized our application by implemeting several steps (check sections 3 and 5) 
 
 We will describe here in details the steps that should be made for a perfect functionning of this application.
 
@@ -31,27 +34,9 @@ To create the streamlit interface from python we need to install/import the foll
 
 To define the title, background, subheadder, caption and other characteristics please check the streamlit_app.py file.
 
-for the model we used the 'TextClassifier' model from flair library(check section 2 for details on the model).
+For the model we used the 'TextClassifier' model from flair library(check section 2 for details on the model).
 
-for the preprocessing of the tweet we created a function:
-
-```
-def preprocess(text):
-    return ''.join([' ' + char + ' ' if char in punct else char for char in [char for char in re.sub(r'http\S+', 'http', text, flags=re.MULTILINE) if char in allowed_chars]])[:maxlen]
-```
-
-to load the model:
-
-```
-with st.spinner('Loading classification model...'):
-    classifier = TextClassifier.load('model-saves/best-model.pt')
-```
-and to predict with this model:
-
-```
-with st.spinner('Predicting...'):
-        classifier.predict(sentence)
-```
+For the preprocessing of the tweet we created a function and to load the models we used the function from the streamlit library. (Check file streamit_app.py for more details on the code)
 
 After this procedure,we show the predictions on the interface by labeling the tweet as positive or negative sentiment.
 
@@ -59,7 +44,11 @@ After this procedure,we show the predictions on the interface by labeling the tw
 
 In this application, we implemented a model that can predict the sentiment(positif or negatif) of a hashtag/tweet and provide its confidence level. 
 
-In this applicaiton we build our model by implementing the different steps (labeling of the text, embedding the words and text classifying) and finally we trained our model to use it in the app.(Check details of the code in the file modele.py)
+In this applicaiton we build our model by implementing the different steps (labeling of the text, embedding the words and text classifying) and finally we trained our model to use it in the app. To do that we used the flair library. (Check details of the code in the file modele.py)
+
+You can find more details on the NLP flair library on this link:
+https://github.com/flairNLP/flair
+
 
 ### 3. the requirements
 
@@ -90,17 +79,7 @@ Thus, we create a file 'Dockerfile'.(Dockerfile is a text document that contains
 docker build images automatically by reading the instructions from this Dockerfile.
 
 In our case, we used python:3.10.8 as base image. (It is crucial that you update python and work with python3.10 version so the flair's library work porperly)
-we created the work directory '/app' and copy the files in it.
-
-we installed the requirements using 
-```
-RUN pip install requirements.txt
-```
-
-and finally we used executed the:
-```
-ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-```
+We created the work directory '/app' and copy the files in it. then, we installed the requirements using and finally we used executed the with the entrypoint.
 
  - On local docker (without dockerhub), follow the description below:
 ```
