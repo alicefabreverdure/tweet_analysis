@@ -14,7 +14,7 @@ Project carried out as part of the course of Cloud Computing 2022.
 6. Example
 
 ## Architecture
-
+```
 TWEET ANALYSIS/
 │
 ├── .vscode/
@@ -36,6 +36,7 @@ TWEET ANALYSIS/
 │
 ├── requirements.txt
 └── README.md
+```
 
 ### 0. Context
 
