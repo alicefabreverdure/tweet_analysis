@@ -102,7 +102,7 @@ and finally we used executed the:
 ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 ```
 
- - on local docker (without docker hub), follow the description below:
+ - On local docker (without dockerhub), follow the description below:
 ```
 docker build -t docker_tweet_analysis .
 ```
@@ -115,11 +115,11 @@ docker run -d -p 8501:8501 docker_tweet_analysis
 ### BONUS: we put our container on dockerhub
 follow the link: https://hub.docker.com/repository/docker/alicefabreverdure/tweet_analysis
 
-in vscode: 
+To pull the repository in vscode: 
 ```
 docker pull alicefabreverdure/tweet_analysis
 ```
-then we create the image by:
+Then we create the image by running it as follows:
 ```
 docker run -d -p 8501:8501 alicefabreverdure/tweet_analysis
 ```
