@@ -35,23 +35,23 @@ for the model we used the 'TextClassifier' model from flair library(check sectio
 
 for the preprocessing of the tweet we created a function:
 
-'''
+```
 def preprocess(text):
     return ''.join([' ' + char + ' ' if char in punct else char for char in [char for char in re.sub(r'http\S+', 'http', text, flags=re.MULTILINE) if char in allowed_chars]])[:maxlen]
-'''
+```
 
 to load the model:
 
-'''
+```
 with st.spinner('Loading classification model...'):
     classifier = TextClassifier.load('model-saves/best-model.pt')
-'''
+```
 and to predict with this model:
 
-'''
+```
 with st.spinner('Predicting...'):
         classifier.predict(sentence)
-'''
+```
 
 After this procedure,we show the predictions on the interface by labeling the tweet as positive or negative sentiment.
 
@@ -78,10 +78,10 @@ pip install -r requirements.txt
 To assure that our model is functioning with no errors and good performance, we created a file 'test_streamlit_app.py'
 
 we lunch the test by the command:
-'''
-pytest
-'''
 
+```
+pytest
+```
 ### 5. The image and container
 
 To dockerize the app, we need to create a docker file. (assuming that you already have docker desktop)
@@ -93,33 +93,33 @@ In our case, we used python:3.10.8 as base image. (It is crucial that you update
 we created the work directory '/app' and copy the files in it.
 
 we installed the requirements using 
-'''
+```
 RUN pip install requirements.txt
-'''
+```
 
 and finally we used executed the:
-'''
+```
 ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-'''
+```
 
  - on local docker (without docker hub), follow the description below:
 '''
 docker build -t docker_tweet_analysis .
-'''
+```
 
 Then after building the container to run it:
-'''
+```
 docker run -d -p 8501:8501 docker_tweet_analysis
-'''
+```
 
 ### BONUS: we put our container on dockerhub
 follow the link: https://hub.docker.com/repository/docker/alicefabreverdure/tweet_analysis
 
 in vscode: 
-'''
+```
 docker pull alicefabreverdure/tweet_analysis
-'''
+```
 then we create the image by:
-'''
+```
 docker run -d -p 8501:8501 alicefabreverdure/tweet_analysis
-'''
+```
