@@ -103,7 +103,7 @@ ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--ser
 ```
 
  - on local docker (without docker hub), follow the description below:
-'''
+```
 docker build -t docker_tweet_analysis .
 ```
 
