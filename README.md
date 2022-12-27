@@ -5,13 +5,14 @@ Project carried out as part of the course of Cloud Computing 2022.
 ## Summary
 
    Architecture of our applicaiton's files.
+
 0. Context
 1. Application : Streamlit_app
 2. Model
 3. Requirements
 4. Test 
 5. Image and container: Dockerfile and command
-    - BONUS: Dockerhub
+   - BONUS: Dockerhub
 6. Example
 
 ## Architecture
