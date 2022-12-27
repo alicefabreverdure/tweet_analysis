@@ -112,7 +112,7 @@ if query != '' and query != '#':
             tweets_df["Address"]= query
             return tweets_df
 
-        tweets_df = twitter_scrap()     
+        tweets_df = twitter_scrap()
 
         pos_vs_neg = {'__label__0': 0, '__label__4': 0}
 
@@ -131,7 +131,7 @@ if query != '' and query != '#':
             classifier.predict(sentence)
             sentiment = sentence.labels[0].to_dict()
             # Keep track of positive vs. negative tweets
-            #pos_vs_neg[sentiment.value] += 1
+            pos_vs_neg[sentiment['value']] += 1
             # Append new data
             tweet_data = tweet_data.append({'Label': sentiment["value"] , 'confidence': sentiment["confidence"]}, ignore_index=True)
 try:
@@ -139,8 +139,8 @@ try:
     tweets_df['Label'] = tweet_data['Label']
     st.write(tweets_df)
     try:
-        st.write('Percentage positive tweet:', pos_vs_neg['__label__4'], '%')
-        st.write('Percentage negative tweet:', pos_vs_neg['__label__0'],'%')
+        st.write('Number positive tweet:', pos_vs_neg['__label__4'])
+        st.write('Number negative tweet:', pos_vs_neg['__label__0'])
     except ZeroDivisionError: # if no negative tweets
         st.write('All postive tweets')
 except NameError: # if no queries have been made yet
