@@ -100,14 +100,19 @@ if query != '' and query != '#':
 
         #The number of tweets we want to retrieved from the search
         tweets = api.search_tweets(q=query, count=no_of_tweets)
-        attributes_container = [[tweet.id, tweet.user.name, tweet.created_at, tweet.favorite_count, tweet.source,  tweet.text
+
+        def twitter_scrap():
+            attributes_container = [[tweet.id, tweet.user.name, tweet.created_at, tweet.favorite_count, tweet.source,  tweet.text
                         , tweet.lang] for tweet in tweets]
 
-        # On def les colonnes du dataframe
-        columns = ["ID","User", "Date Created", "Number of Likes", "Source of Tweet", "Tweet", "Lang"]
-        #On créé un Df:
-        tweets_df = pd.DataFrame(attributes_container, columns=columns)
-        tweets_df["Address"]= query
+            # On def les colonnes du dataframe
+            columns = ["ID","User", "Date Created", "Number of Likes", "Source of Tweet", "Tweet", "Lang"]
+            #On créé un Df:
+            tweets_df = pd.DataFrame(attributes_container, columns=columns)
+            tweets_df["Address"]= query
+            return tweets_df
+
+        tweets_df = twitter_scrap()     
 
         pos_vs_neg = {'__label__0': 0, '__label__4': 0}
 
