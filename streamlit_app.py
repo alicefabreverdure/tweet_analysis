@@ -10,6 +10,8 @@ import base64
 import tweepy as tp
 from tweepy import OAuthHandler
 
+import altair as alt
+
 #page_bg_img = '''
 #<style>
 #p {
@@ -81,7 +83,7 @@ query = st.text_input('Query:', '#')
 # Choose number of tweets
 option = st.selectbox(
     'How many tweets ?',
-    (10, 50, 100))
+    (10, 50, 100, 1000))
 
 if query != '' and query != '#':
     with st.spinner(f'Searching for and analyzing {query}...'):
@@ -134,15 +136,24 @@ if query != '' and query != '#':
             pos_vs_neg[sentiment['value']] += 1
             # Append new data
             # Show predictions
-            label_dict = {'__label__0': 'Negative', '__label__4': 'Positive'}
-            tweet_data = tweet_data.append({'Label': label_dict[sentence.labels[0].value], 'confidence': sentiment["confidence"]}, ignore_index=True)
+            label_dict = {'__label__0': 0, '__label__4': 1}
+            tweet_data = tweet_data.append({'Label': label_dict[sentence.labels[0].value], 'confidence': sentiment["confidence"], 'date': tweet.created_at}, ignore_index=True)
+
+            # graph represent evolution in time
+            sentiment_plotline = alt.Chart(tweet_data).mark_line().encode(
+                x=alt.X("date:T", title="date"),
+                y=alt.Y("Label:Q", title="Negative - positive")
+        )
+            
 try:
     tweets_df['confidence'] = tweet_data['confidence']
     tweets_df['Label'] = tweet_data['Label']
     st.write(tweets_df)
+    st.write('0 refers to negative tweets and 1 to positive ones')
     try:
-        st.write('Number positive tweet:', pos_vs_neg['__label__4'])
-        st.write('Number negative tweet:', pos_vs_neg['__label__0'])
+        st.write('Number positive tweets:', pos_vs_neg['__label__4'])
+        st.write('Number negative tweets:', pos_vs_neg['__label__0'])
+        st.altair_chart(sentiment_plotline)
     except ZeroDivisionError: # if no negative tweets
         st.write('All postive tweets')
 except NameError: # if no queries have been made yet
