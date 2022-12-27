@@ -137,8 +137,6 @@ if query != '' and query != '#':
             label_dict = {'__label__0': 'Negative', '__label__4': 'Positive'}
             tweet_data = tweet_data.append({'Label': label_dict[sentence.labels[0].value], 'confidence': sentiment["confidence"]}, ignore_index=True)
 try:
-            tweet_data = tweet_data.append({'Label': label_dict[sentence.labels[0].value] , 'confidence': sentiment["confidence"]}, ignore_index=True)
-try:
     tweets_df['confidence'] = tweet_data['confidence']
     tweets_df['Label'] = tweet_data['Label']
     st.write(tweets_df)
