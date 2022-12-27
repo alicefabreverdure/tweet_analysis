@@ -78,6 +78,10 @@ if tweet_input != '':
 st.subheader('Search Twitter for Query')
 
 query = st.text_input('Query:', '#')
+# Choose number of tweets
+option = st.selectbox(
+    'How many tweets ?',
+    (10, 50, 100))
 
 if query != '' and query != '#':
     with st.spinner(f'Searching for and analyzing {query}...'):
@@ -92,15 +96,15 @@ if query != '' and query != '#':
         auth.set_access_token(access_token, access_token_secret)
         api = tp.API(auth)
         # Get English tweets from the past 4 weeks
-        no_of_tweets = 100 # change to unlimited
+        no_of_tweets = option # change to unlimited
 
         #The number of tweets we want to retrieved from the search
         tweets = api.search_tweets(q=query, count=no_of_tweets)
-        attributes_container = [[tweet.id,tweet.geo,tweet.coordinates, tweet.place, tweet.user.name, tweet.created_at, tweet.favorite_count, tweet.source,  tweet.text, tweet.is_quote_status
+        attributes_container = [[tweet.id, tweet.user.name, tweet.created_at, tweet.favorite_count, tweet.source,  tweet.text
                         , tweet.lang] for tweet in tweets]
 
         # On def les colonnes du dataframe
-        columns = ["ID","Geo","Coordinates","Place","User", "Date Created", "Number of Likes", "Source of Tweet", "Tweet", "Quoted", "Lang"]
+        columns = ["ID","User", "Date Created", "Number of Likes", "Source of Tweet", "Tweet", "Lang"]
         #On créé un Df:
         tweets_df = pd.DataFrame(attributes_container, columns=columns)
         tweets_df["Address"]= query
