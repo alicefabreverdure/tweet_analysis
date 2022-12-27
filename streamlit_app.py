@@ -116,6 +116,11 @@ if query != '' and query != '#':
 
         pos_vs_neg = {'__label__0': 0, '__label__4': 0}
 
+        tweet_data = pd.DataFrame({
+            'tweet': [],
+            'predicted-sentiment': []
+        })
+
         # Add data for each tweet
         for tweet in tweets:
             # Skip iteration if tweet is empty
@@ -124,12 +129,14 @@ if query != '' and query != '#':
             # Make predictions
             sentence = Sentence(preprocess(tweet.text))
             classifier.predict(sentence)
-            sentiment = sentence.labels[0]
+            sentiment = sentence.labels[0].to_dict()
             # Keep track of positive vs. negative tweets
-            pos_vs_neg[sentiment.value] += 1
+            #pos_vs_neg[sentiment.value] += 1
             # Append new data
-            tweets_df = tweets_df.append({'tweet': tweet.text, 'predicted-sentiment': sentiment}, ignore_index=True)
+            tweet_data = tweet_data.append({'Label': sentiment["value"] , 'confidence': sentiment["confidence"]}, ignore_index=True)
 try:
+    tweets_df['confidence'] = tweet_data['confidence']
+    tweets_df['Label'] = tweet_data['Label']
     st.write(tweets_df)
     try:
         st.write('Percentage positive tweet:', pos_vs_neg['__label__4'], '%')
