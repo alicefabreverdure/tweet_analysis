@@ -19,8 +19,8 @@ Project carried out as part of the course of Cloud Computing 2022.
 ```
 TWEET ANALYSIS/
 │
-├── .vscode/
 ├── .gitattributes
+├── .github/workflows
 │
 ├── images/
 │   ├── screenshot1.jpg
@@ -73,6 +73,8 @@ For the preprocessing of the hashtags/tweets we created a function and to load t
 After this procedure,we show the predictions on the interface by labeling the tweet as positive or negative sentiment.
 (check section 6, the example for an illustration of the application)
 
+There is still two branch in this repo. Indeed, as explained in section 5, we are not able/didn't manage to run the finale application with dockerhub. Then, as it doesn't work as expected, we haven't merged the branch docker-hub. On the main branch, to see the final application you have to use docker desktop and the command mentionned in section 5. And, in order to see the work done relatively to dockerhub, you have to select the branch docker-hub and to pull the image with the commands mentionned in section 6.
+
 ### 2. the model
 
 In this application, we implemented a model that can predict the sentiment(positive or negative) of a hashtag/tweet and provide its confidence level. 
@@ -96,7 +98,7 @@ pip install -r requirements.txt
 
 ### 4. The test using pytest
 
-To assure that our model is functioning with no errors and good performance, we created a file 'test_streamlit_app.py'
+To assure that our model is functioning with no errors and good performance, we made unit tests and created a file 'test_streamlit_app.py'
 
 we lunch the test by the command:
 
@@ -109,10 +111,10 @@ pytest
 To dockerize the app, we need to create a docker file. (assuming that you already have docker desktop)
 
 Thus, we create a file 'Dockerfile'.(Dockerfile is a text document that contains all the commands needed to assemble an image).
-Docker build images automatically by reading the instructions from this Dockerfile.
+Docker builds images automatically by reading the instructions from this Dockerfile.
 
 In our case, we used python:3.10.8 as base image. (It is crucial that you update python and work with python3.10 version so the flair's library work porperly)
-We create the work directory '/app' and copy the files in it. Moreover, we install the requirements and execute the code with the entrypoint.
+In the docker file, we create the work directory '/app' and copy the files in it. Moreover, we install the requirements and execute the code with the entrypoint.
 
  - On local docker (without dockerhub), follow the description below:
 ```
@@ -135,10 +137,16 @@ Then we create the image by running it as follows:
 ```
 docker run -d -p 8501:8501 alicefabreverdure/tweet_analysis
 ```
-This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be downloaded in docker hub. In local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. A second way to solve this problem is by using a google drive link but unfortunately it didn't work also.
+To create an image in dockerhub we created the folder .github/workflows which makes the link between git hub and docker hub. Moreover, when looking at the Actions' tab in github we can see that the image is effectively built and that it can be found in dockerhub.
+
+This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be normaly pushed in git hub. Then we used git push lfs. Then in local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. Indeed : "Currently Docker Hub does not support Git LFS (Large File Storage). If you have binaries in your build context that are managed by Git LFS, only the pointer file is present in the clone made during the automated build, which is not what you want. "
 
 After a long time of research we noticed that it is a probleme for a lot of people and even professional teams. Suggestions to support the git lfs version was made to docker hub. This problem was first confronted in 2015 and persist till now. (for more information about this problem, check this tow links: https://stackoverflow.com/questions/73944739/spring-boot-java-jar-file-corrupt-in-docker-image-via-docker-hub-since-using
 and  https://github.com/docker/hub-feedback/issues/500)  
+
+A second way to solve this problem is by using a google drive link but unfortunately it didn't work also. We created a file download.py which specifies from where to downlod the file and where to download it. The later is located in a public repo, with the right to edit it. However an issue relatives to access appears. Once more, this issue seems to be commom to several persons with no solution.
+
+As it doesn't work as expected, we haven't merged the branch docker-hub. Then on the main branch, to see the final application you have to use docker desktop and the command mentionned in section 5. In order to see the work done relatively to dockerhub, you have to select the branch docker-hub.
 
 ### 6. Example
 ![Algorithm schema](./images/Screenshot1.jpg)
