@@ -133,7 +133,11 @@ if query != '' and query != '#':
             # Keep track of positive vs. negative tweets
             pos_vs_neg[sentiment['value']] += 1
             # Append new data
-            tweet_data = tweet_data.append({'Label': sentiment["value"] , 'confidence': sentiment["confidence"]}, ignore_index=True)
+            # Show predictions
+            label_dict = {'__label__0': 'Negative', '__label__4': 'Positive'}
+            tweet_data = tweet_data.append({'Label': label_dict[sentence.labels[0].value], 'confidence': sentiment["confidence"]}, ignore_index=True)
+try:
+            tweet_data = tweet_data.append({'Label': label_dict[sentence.labels[0].value] , 'confidence': sentiment["confidence"]}, ignore_index=True)
 try:
     tweets_df['confidence'] = tweet_data['confidence']
     tweets_df['Label'] = tweet_data['Label']
