@@ -112,7 +112,7 @@ if query != '' and query != '#':
             tweets_df["Address"]= query
             return tweets_df
 
-        tweets_df = twitter_scrap()     
+        tweets_df = twitter_scrap()
 
         pos_vs_neg = {'__label__0': 0, '__label__4': 0}
 
@@ -128,7 +128,8 @@ if query != '' and query != '#':
             # Keep track of positive vs. negative tweets
             pos_vs_neg[sentiment.value] += 1
             # Append new data
-            tweets_df = tweets_df.append({'tweet': tweet.text, 'predicted-sentiment': sentiment}, ignore_index=True)
+            tweets_df['tweet'] = tweet.text
+            tweets_df['predicted-sentiment'] = sentiment
 try:
     st.write(tweets_df)
     try:
