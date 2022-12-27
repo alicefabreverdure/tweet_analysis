@@ -4,11 +4,12 @@ Project carried out as part of the course of Cloud Computing 2022.
 
 ## Summary
 
+   Architecture of our applicaiton's files.
 0. Context
 1. Application : Streamlit_app
-2. Model: modele.py
+2. Model
 3. Requirements
-4. Test using pytest
+4. Test 
 5. Image and container: Dockerfile and command
     - BONUS: Dockerhub
 6. Example
@@ -44,11 +45,11 @@ TWEET ANALYSIS/
 
 ### 0. Context
 
-    In this project, we wanted to create an application that scrap tweets of a particular hashtag and reveal the
+In this project, we wanted to create an application that scrap tweets of a particular hashtag and reveal the
 sentiments deriving from these hashtags.
 It is a Natural Language Processing(NLP) Problem where Sentiment Analysis is done by Classifying positive and negative tweets by machine learning models for classification, text mining, text analysis and data analysis.
 
-    To fulfill our goals, we used streamlit to create an interface to show the sentiments of the tweet.(More details 
+To fulfill our goals, we used streamlit to create an interface to show the sentiments of the tweet.(More details 
 are provided in section 1) 
 The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the modele.py file, see section 2).We dockerized our application by implementing several steps (check sections 3 and 5) 
 
@@ -133,7 +134,10 @@ Then we create the image by running it as follows:
 ```
 docker run -d -p 8501:8501 alicefabreverdure/tweet_analysis
 ```
-This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be downloaded in docker hub. In local docker, git push lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of push. A second way to solve this problem is by using a google drive link but unfortunately it didn't work also.  
+This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be downloaded in docker hub. In local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. A second way to solve this problem is by using a google drive link but unfortunately it didn't work also.
+
+After a long time of research we noticed that it is a probleme for a lot of people and even professional teams. Suggestions to support the git lfs version was made to docker hub. This problem was first confronted in 2015 and persist till now. (for more information about this problem, check this tow links: https://stackoverflow.com/questions/73944739/spring-boot-java-jar-file-corrupt-in-docker-image-via-docker-hub-since-using
+and  https://github.com/docker/hub-feedback/issues/500)  
 
 ### 6. Example
 ![Algorithm schema](./images/Screenshot1.jpg)
