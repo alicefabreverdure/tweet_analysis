@@ -18,6 +18,7 @@ Project carried out as part of the course of Cloud Computing 2022.
 ```
 TWEET ANALYSIS/
 │
+├── .github/workflows
 ├── .gitattributes
 │
 ├── images/
