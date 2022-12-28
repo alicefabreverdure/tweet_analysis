@@ -1,11 +1,11 @@
 # Twitter Sentiment Analysis
 
 Project carried out as part of the course of Cloud Computing 2022.
+Contributors: Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verdure
 
 ## Summary
 
-   Architecture of our applicaiton's files.
-
+Architecture of our applicaiton's files.
 0. Context
 1. Application : Streamlit_app
 2. Model
@@ -14,6 +14,7 @@ Project carried out as part of the course of Cloud Computing 2022.
 5. Image and container: Dockerfile and command
    - BONUS: Dockerhub
 6. Example
+7. Outlook
 
 ## Architecture
 ```
@@ -141,7 +142,7 @@ Finally, it provides a table including information about the tweet(user, date, t
 
 ![Algorithm schema](./images/Screenshot1.jpg)
 
-### Perspective
+### 7. Outlook
 
 We show in this graph a perspective of this application, where we can visualize in function of time the sentiments of tweet around a specific topic. We can also calculate the ratios of positive or negative tweets per day or week and follow it with time.
 
