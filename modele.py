@@ -1,5 +1,5 @@
-## Creation d'un modele permettant de savoir si un tweet confere un sentiment positif ou negatif
-## et à quelle niveau de confiance
+## Creation of a model to know if a tweet confers a positive or negative feeling
+## and at what level of confidence
 
 # Load data
 import pandas as pd

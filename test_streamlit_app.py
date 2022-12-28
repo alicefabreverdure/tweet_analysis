@@ -1,5 +1,5 @@
+
 import pytest # importing our library of testpip install -U pytest
-# Import de ma fonction à tester
 from streamlit_app import preprocess
 from flair.data import Sentence
 import tweepy as tp

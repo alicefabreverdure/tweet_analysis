@@ -1,27 +1,19 @@
+import base64
 import datetime as dt
 import re
 
+import altair as alt
 import pandas as pd
+import tweepy as tp
 import streamlit as st
+
 from flair.data import Sentence
 from flair.models import TextClassifier
-import base64
-
-import tweepy as tp
 from tweepy import OAuthHandler
 
-import altair as alt
 
-#page_bg_img = '''
-#<style>
-#p {
-#ackground-image: url("https://images.unsplash.com/photo-1542281286-9e0a16bb7366");
-#ackground-size: cover;
-#
-#/style>
-#''
 
-#st.markdown(page_bg_img, unsafe_allow_html=True)
+
 
 st.markdown( """
    <style>
@@ -87,6 +79,7 @@ option = st.selectbox(
 
 if query != '' and query != '#':
     with st.spinner(f'Searching for and analyzing {query}...'):
+
         # initialisation
         consumer_key = "neFjQUU9CfE9gFgBK2X4yro2j" # API/Consumer key
         consumer_secret = "orhQzemgSx07sMV9lTK197j7ZTXrojnDwdGMQdDA1RUl2Gli5h" # API/Consumer Secret Key
@@ -97,19 +90,19 @@ if query != '' and query != '#':
         auth = OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_token_secret)
         api = tp.API(auth)
-        # Get English tweets from the past 4 weeks
+        
         no_of_tweets = option # change to unlimited
 
-        #The number of tweets we want to retrieved from the search
+        # The number of tweets we want to retrieved from the search
         tweets = api.search_tweets(q=query, count=no_of_tweets)
 
         def twitter_scrap():
             attributes_container = [[tweet.id, tweet.user.name, tweet.created_at, tweet.favorite_count, tweet.source,  tweet.text
                         , tweet.lang] for tweet in tweets]
 
-            # On def les colonnes du dataframe
+            
             columns = ["ID","User", "Date Created", "Number of Likes", "Source of Tweet", "Tweet", "Lang"]
-            #On créé un Df:
+            
             tweets_df = pd.DataFrame(attributes_container, columns=columns)
             tweets_df["Address"]= query
             return tweets_df
@@ -118,6 +111,7 @@ if query != '' and query != '#':
 
         pos_vs_neg = {'__label__0': 0, '__label__4': 0}
 
+        # Temporary dataframe
         tweet_data = pd.DataFrame({
             'tweet': [],
             'predicted-sentiment': []
