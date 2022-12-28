@@ -1,11 +1,12 @@
 # Twitter Sentiment Analysis
 
 Project carried out as part of the course of Cloud Computing 2022.
+Contributors: Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verdure
 
+(reading time ~ 5 mins)
 ## Summary
 
-   Architecture of our applicaiton's files.
-
+Architecture of our applicaiton's files.
 0. Context
 1. Application : Streamlit_app
 2. Model
@@ -14,13 +15,16 @@ Project carried out as part of the course of Cloud Computing 2022.
 5. Image and container: Dockerfile and command
    - BONUS: Dockerhub
 6. Example
+7. Outlook
 
 ## Architecture
 ```
 TWEET ANALYSIS/
 │
+├── _pycache_
+├── .pytest_cache
+├── .vscode/
 ├── .gitattributes
-├── .github/workflows
 │
 ├── images/
 │   ├── screenshot1.jpg
@@ -70,12 +74,12 @@ To define the title, background, subheadder, caption and other characteristics p
 For the model we used the 'TextClassifier' model from flair library (check section 2 for details on the model).
 For the preprocessing of the hashtags/tweets we created a function and to load the models we used the function from the streamlit library (check file streamit_app.py for more details on the code).
 
-After this procedure,we show the predictions on the interface by labeling the tweet as positive or negative sentiment
-(check section 6, the example for an illustration of the application).
+After this procedure, we show the predictions on the interface by labeling the tweet as positive or negative sentiment.
+(check section 6, the example for an illustration of the application)
 
-There is still two branch in this repo. Indeed, as explained in section 5, we are not able/didn't manage to run the finale application with dockerhub. Then, as it doesn't work as expected, we haven't merged the branch docker-hub. On the main branch, to see the final application you have to use docker desktop and the command mentionned in section 5. And, in order to see the work done relatively to dockerhub, you have to select the branch docker-hub and to pull the image with the commands mentionned in section 6.
+### 2. The model
 
-### 2. the model
+In this application, we implemented a model that can predict the sentiment (positive or negative) of a hashtag/tweet and provide its confidence level. 
 
 In this application, we implemented a model that can predict the sentiment (positive or negative) of a hashtag/tweet and provide its confidence level. 
 
@@ -84,17 +88,11 @@ In this application we build our model by implementing the different steps (labe
 You can find more details on the NLP flair library on this link:
 https://github.com/flairNLP/flair
 
-### 3. the requirements
+### 3. The requirements
 
 In order to run our model, we need several dependencies (streamlit, flair, tweepy ...).
 
-Therefore, we created 'requirements.txt' file. This file contains the libraries with their specific version for this application to run.
-
-To install these dependencies, run the following code: 
-
-```
-pip install -r requirements.txt
-```
+Therefore, we created 'requirements.txt' file. This file contains the libraries with their specific version for this application to run properly.
 
 ### 4. The test using pytest
 
@@ -137,7 +135,7 @@ Then we create the image by running it as follows:
 ```
 docker run -d -p 8501:8501 alicefabreverdure/tweet_analysis
 ```
-To create an image in dockerhub we created the folder .github/workflows which makes the link between git hub and docker hub. Moreover, when looking at the Actions' tab in github we can see that the image is effectively built and that it can be found in dockerhub.
+This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the model. The model is too heavy to be downloaded in docker hub. In local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. A second way to solve this problem is by using a google drive link but unfortunately it didn't work also.
 
 This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be normaly pushed in git hub. Then we used git push lfs. Then in local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. Indeed : "Currently Docker Hub does not support Git LFS (Large File Storage). If you have binaries in your build context that are managed by Git LFS, only the pointer file is present in the clone made during the automated build, which is not what you want. "
 
@@ -149,4 +147,16 @@ A second way to solve this problem is by using a google drive link but, unfortun
 As it doesn't work as expected, we haven't merged the branch docker-hub. Then on the main branch, to see the final application you have to use docker desktop and the command mentionned in section 5. In order to see the work done relatively to dockerhub, you have to select the branch docker-hub.
 
 ### 6. Example
+
+This photo is an illustration of the application that we created. In a first step, the application will scrap the hashtag #worldcup on twitter and return with the last 100 tweets concerning this hashtag. In a second step, the application will label each tweet by positive or negative sentiment.
+Finally, it provides a table including information about the tweet(user, date, text...) and its sentiment with the confidence. 
+
 ![Algorithm schema](./images/Screenshot1.jpg)
+
+### 7. Outlook
+
+We show in this graph a perspective of this application, where we can visualize in function of time the sentiments of tweet around a specific topic. We can also calculate the ratios of positive or negative tweets per day or week and follow it with time.
+
+![Algorithm schema](./images/Screenshot2.jpg)
+
+This application can help brands to track the tweets concerning its products and reveal the sentiments of its owners, the impact of its product and how to control its marketing campaign.
