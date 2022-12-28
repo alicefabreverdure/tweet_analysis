@@ -7,5 +7,5 @@ COPY . .
 # Installation of code dependencies
 RUN pip install -r requirements.txt
 # Command to be executed when the container is launched
-ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run","download.py", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 #last version Entrypoint instead of CMD
