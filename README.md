@@ -40,7 +40,7 @@ TWEET ANALYSIS/
 ├── Dockerfile
 ├── download_from_google_drive.py
 │
-├── modele.py
+├── python_modele.py
 ├── streamlit_app.py
 ├── test_streamlit_app.py
 │
@@ -56,7 +56,7 @@ It is a Natural Language Processing (NLP) Problem where Sentiment Analysis is do
 
 To fulfill our goals, we used streamlit to create an interface to show the sentiments of the tweet (more details 
 are provided in section 1).
-The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the modele.py file, see section 2). We dockerized our application by implementing several steps (check sections 3 and 5).
+The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the python_modele.py file, see section 2). We dockerized our application by implementing several steps (check sections 3 and 5).
 
 In this file, we describe in details the steps that should be made for a perfect functioning of this application.
 
@@ -83,7 +83,7 @@ After this procedure, we show the predictions on the interface by labeling the t
 
 In this application, we implemented a model that can predict the sentiment (positive or negative) of a hashtag/tweet and provide its confidence level. 
 
-In this application we build our model by implementing the different steps (labeling of the text, embedding the words and text classifying) and finally we trained our model to use it in the app. To do that we used the flair library (check details of the code in the file modele.py).
+In this application we build our model by implementing the different steps (labeling of the text, embedding the words and text classifying) and finally we trained our model to use it in the app. To do that we used the flair library (check details of the code in the file python_modele.py).
 
 You can find more details on the NLP flair library on this link:
 https://github.com/flairNLP/flair
