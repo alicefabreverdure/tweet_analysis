@@ -60,7 +60,7 @@ The prediction of the hashtags/tweet's sentiments is made by training a model (t
 
 In this file, we describe in details the steps that should be made for a perfect functioning of this application.
 
-As explained in section 5, it is important to mention that we are not able/didn't manage to run the final application, only and intermediate one, with dockerhub. To see the final application you have to use docker desktop and the command mentionned in section 5. And, in order to see the work done relatively to dockerhub, you have to pull the image from dockerhub with the commands mentionned in section 6.
+As explained in section 5, it is important to mention that we are not able/didn't manage to run the final application, only and intermediate one, with dockerhub. To see the final application you have to use docker desktop and the command mentionned in section 5. And, in order to see the work done relatively to dockerhub, you have to pull the image from dockerhub with the commands mentionned at the end of the section 5.
 
 ### 1. The application
 
