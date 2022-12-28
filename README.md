@@ -12,7 +12,7 @@ Architecture of our applicaiton's files.
 1. Application : Streamlit_app
 2. Model
 3. Requirements
-4. Test 
+4. Test
 5. Image and container: Dockerfile and command
    - BONUS: Dockerhub
 6. Example
@@ -40,7 +40,7 @@ TWEET ANALYSIS/
 ├── Dockerfile
 ├── download_from_google_drive.py
 │
-├── python_modele.py
+├── modele.py
 ├── streamlit_app.py
 ├── test_streamlit_app.py
 │
@@ -54,9 +54,9 @@ In this project, we wanted to create an application that scrap tweets of a parti
 sentiments deriving from these hashtags.
 It is a Natural Language Processing (NLP) Problem where Sentiment Analysis is done by Classifying positive and negative tweets by machine learning models for classification, text mining, text analysis and data analysis.
 
-To fulfill our goals, we used streamlit to create an interface to show the sentiments of the tweet (more details 
+To fulfill our goals, we used streamlit to create an interface to show the sentiments of the tweet (more details
 are provided in section 1).
-The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the python_modele.py file, see section 2). We dockerized our application by implementing several steps (check sections 3 and 5).
+The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the modele.py file, see section 2). We dockerized our application by implementing several steps (check sections 3 and 5).
 
 In this file, we describe in details the steps that should be made for a perfect functioning of this application.
 
@@ -81,9 +81,9 @@ After this procedure, we show the predictions on the interface by labeling the t
 
 ### 2. The model
 
-In this application, we implemented a model that can predict the sentiment (positive or negative) of a hashtag/tweet and provide its confidence level. 
+In this application, we implemented a model that can predict the sentiment (positive or negative) of a hashtag/tweet and provide its confidence level.
 
-In this application we build our model by implementing the different steps (labeling of the text, embedding the words and text classifying) and finally we trained our model to use it in the app. To do that we used the flair library (check details of the code in the file python_modele.py).
+In this application we build our model by implementing the different steps (labeling of the text, embedding the words and text classifying) and finally we trained our model to use it in the app. To do that we used the flair library (check details of the code in the file modele.py).
 
 You can find more details on the NLP flair library on this link:
 https://github.com/flairNLP/flair
@@ -127,7 +127,7 @@ docker run -d -p 8501:8501 docker_tweet_analysis
 ### BONUS: we put our container on dockerhub
 follow the link: https://hub.docker.com/repository/docker/alicefabreverdure/tweet_analysis
 
-To pull the repository : 
+To pull the repository :
 ```
 docker pull alicefabreverdure/tweet_analysis
 ```
@@ -140,7 +140,7 @@ To create an image in dockerhub we created the folder .github/workflows which ma
 This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be normaly pushed in git hub. Then we used git push lfs. In local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. Indeed : "Currently Docker Hub does not support Git LFS (Large File Storage). If you have binaries in your build context that are managed by Git LFS, only the pointer file is present in the clone made during the automated build, which is not what you want. "
 
 After a long time of research we noticed that it is a probleme for a lot of people and even professional teams. Suggestions to support the git lfs version was made to docker hub. This problem was first confronted in 2015 and persist till now (for more information about this problem, check this tow links: https://stackoverflow.com/questions/73944739/spring-boot-java-jar-file-corrupt-in-docker-image-via-docker-hub-since-using
-and  https://github.com/docker/hub-feedback/issues/500).  
+and  https://github.com/docker/hub-feedback/issues/500).
 
 A second way to solve this problem is by using a google drive link but, unfortunately, that didn't work either. We created a file download_from_googledrive.py which specifies from where to downlod the file and where to download it. The later is located in a public repo, with the right to edit it. However an issue relatives to access appears. Once more, this issue seems to be commom to several persons with no obvious solution.
 
@@ -149,7 +149,7 @@ Then, to see the final application you have to use docker desktop and the comman
 ### 6. Example
 
 This photo is an illustration of the application that we created. In a first step, the application will scrap the hashtag #worldcup on twitter and return with the last 100 tweets concerning this hashtag. In a second step, the application will label each tweet by positive or negative sentiment.
-Finally, it provides a table including information about the tweet(user, date, text...) and its sentiment with the confidence. 
+Finally, it provides a table including information about the tweet(user, date, text...) and its sentiment with the confidence.
 
 ![Algorithm schema](./images/Screenshot1.jpg)
 
