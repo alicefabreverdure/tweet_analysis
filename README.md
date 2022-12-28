@@ -7,6 +7,7 @@ Contributors: Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verd
 ## Summary
 
 Architecture of our applicaiton's files.
+
 0. Context
 1. Application : Streamlit_app
 2. Model
@@ -21,10 +22,8 @@ Architecture of our applicaiton's files.
 ```
 TWEET ANALYSIS/
 │
-├── _pycache_
-├── .pytest_cache
-├── .vscode/
 ├── .gitattributes
+├── .github/workflows
 │
 ├── images/
 │   ├── screenshot1.jpg
@@ -39,6 +38,7 @@ TWEET ANALYSIS/
 │   └── final-model.py
 │
 ├── Dockerfile
+├── download_from_google_drive.py
 │
 ├── modele.py
 ├── streamlit_app.py
@@ -59,6 +59,8 @@ are provided in section 1).
 The prediction of the hashtags/tweet's sentiments is made by training a model (the model is described in the modele.py file, see section 2). We dockerized our application by implementing several steps (check sections 3 and 5).
 
 In this file, we describe in details the steps that should be made for a perfect functioning of this application.
+
+There is still two branch in this repo. Indeed, as explained in section 5, we are not able/didn't manage to run the finale application with dockerhub. Then, as it doesn't work as expected, we haven't merged the branch docker-hub. On the main branch, to see the final application you have to use docker desktop and the command mentionned in section 5. And, in order to see the work done relatively to dockerhub, you have to select the branch docker-hub and to pull the image with the commands mentionned in section 6.
 
 ### 1. The application
 
@@ -135,7 +137,7 @@ Then we create the image by running it as follows:
 ```
 docker run -d -p 8501:8501 alicefabreverdure/tweet_analysis
 ```
-This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the model. The model is too heavy to be downloaded in docker hub. In local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. A second way to solve this problem is by using a google drive link but unfortunately it didn't work also.
+To create an image in dockerhub we created the folder .github/workflows which makes the link between git hub and docker hub. Moreover, when looking at the Actions' tab in github we can see that the image is effectively built and that it can be found in dockerhub.
 
 This version of docker hub will show the background of the application but an error will appear. The origin of this error is the large size of the modele. The model is too heavy to be normaly pushed in git hub. Then we used git push lfs. Then in local docker, git lfs is sufficient to overcome this problem, whereas docker hub doesn't support this form of git. Indeed : "Currently Docker Hub does not support Git LFS (Large File Storage). If you have binaries in your build context that are managed by Git LFS, only the pointer file is present in the clone made during the automated build, which is not what you want. "
 
