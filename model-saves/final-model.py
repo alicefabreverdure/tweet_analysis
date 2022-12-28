@@ -1,6 +1,3 @@
-## Creation d'un modele permettant de savoir si un tweet confere un sentiment positif ou negatif
-## et à quelle niveau de confiance
-
 # Load data
 import pandas as pd
 
@@ -29,12 +26,12 @@ tweet_data['sentiment'] = '__label__' + tweet_data['sentiment'].astype(str)
 # Save data
 import os
 
-# Create directory for saving data
+# Create directory for saving data if it does not already exist
 data_dir = './processed-data'
 if not os.path.isdir(data_dir):
     os.mkdir(data_dir)
 
-# Save a percentage of the data
+# Save a percentage of the data (you could also only load a fraction of the data instead)
 amount = 0.125
 
 tweet_data.iloc[0:int(len(tweet_data)*0.8*amount)].to_csv(data_dir + '/train.csv', sep='\t', index=False, header=False)
@@ -51,7 +48,7 @@ from flair.datasets import CSVClassificationCorpus
 from pathlib import Path
 
 #corpus = flair.datasets(Path(data_dir), test_file='test.csv', dev_file='dev.csv', train_file='train.csv')
-column_name_map = {1: 'text', 0: 'label'}
+column_name_map = {0: 'text', 1: 'label'}
 corpus: Corpus = CSVClassificationCorpus(Path(data_dir),
                               column_name_map,
                               skip_header=True,
@@ -90,5 +87,3 @@ trainer.train('model-saves',
               anneal_factor=0.5,
               patience=8,
               max_epochs=200)
-
-

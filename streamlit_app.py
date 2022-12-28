@@ -5,8 +5,12 @@ import pandas as pd
 import streamlit as st
 from flair.data import Sentence
 from flair.models import TextClassifier
-from twitterscraper import query_tweets
 import base64
+
+import tweepy as tp
+from tweepy import OAuthHandler
+
+import altair as alt
 
 #page_bg_img = '''
 #<style>
@@ -72,5 +76,87 @@ if tweet_input != '':
         st.write(label_dict[sentence.labels[0].value] + ' with ',
                 sentence.labels[0].score*100, '% confidence')
 
-st.caption('Authors : Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verdure')
+### TWEET SEARCH AND CLASSIFY ###
+st.subheader('Search Twitter for Query')
 
+query = st.text_input('Query:', '#')
+# Choose number of tweets
+option = st.selectbox(
+    'How many tweets ?',
+    (10, 50, 100, 1000))
+
+if query != '' and query != '#':
+    with st.spinner(f'Searching for and analyzing {query}...'):
+        # initialisation
+        consumer_key = "neFjQUU9CfE9gFgBK2X4yro2j" # API/Consumer key
+        consumer_secret = "orhQzemgSx07sMV9lTK197j7ZTXrojnDwdGMQdDA1RUl2Gli5h" # API/Consumer Secret Key
+        access_token = "1204779047252889609-0dCHKl8ZNqCLLmJCBuqP1rULpXYLLY"    # Access token key
+        access_token_secret = "kiY8AIFf4MBOBQGxTbNf3DRCmYYklZT0e87m5SClYvnnX" # Access token Secret key
+
+        # Authentification
+        auth = OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_token, access_token_secret)
+        api = tp.API(auth)
+        # Get English tweets from the past 4 weeks
+        no_of_tweets = option # change to unlimited
+
+        #The number of tweets we want to retrieved from the search
+        tweets = api.search_tweets(q=query, count=no_of_tweets)
+
+        def twitter_scrap():
+            attributes_container = [[tweet.id, tweet.user.name, tweet.created_at, tweet.favorite_count, tweet.source,  tweet.text
+                        , tweet.lang] for tweet in tweets]
+
+            # On def les colonnes du dataframe
+            columns = ["ID","User", "Date Created", "Number of Likes", "Source of Tweet", "Tweet", "Lang"]
+            #On créé un Df:
+            tweets_df = pd.DataFrame(attributes_container, columns=columns)
+            tweets_df["Address"]= query
+            return tweets_df
+
+        tweets_df = twitter_scrap()
+
+        pos_vs_neg = {'__label__0': 0, '__label__4': 0}
+
+        tweet_data = pd.DataFrame({
+            'tweet': [],
+            'predicted-sentiment': []
+        })
+
+        # Add data for each tweet
+        for tweet in tweets:
+            # Skip iteration if tweet is empty
+            if tweet.text in ('', ' '):
+                continue
+            # Make predictions
+            sentence = Sentence(preprocess(tweet.text))
+            classifier.predict(sentence)
+            sentiment = sentence.labels[0].to_dict()
+            # Keep track of positive vs. negative tweets
+            pos_vs_neg[sentiment['value']] += 1
+            # Append new data
+            # Show predictions
+            label_dict = {'__label__0': 0, '__label__4': 1}
+            tweet_data = tweet_data.append({'Label': label_dict[sentence.labels[0].value], 'confidence': sentiment["confidence"], 'date': tweet.created_at}, ignore_index=True)
+
+            # graph represent evolution in time
+            sentiment_plotline = alt.Chart(tweet_data).mark_line().encode(
+                x=alt.X("date:T", title="date"),
+                y=alt.Y("Label:Q", title="Negative - positive")
+        )
+            
+try:
+    tweets_df['confidence'] = tweet_data['confidence']
+    tweets_df['Label'] = tweet_data['Label']
+    st.write(tweets_df)
+    st.write('0 refers to negative tweets and 1 to positive ones')
+    try:
+        st.write('Number positive tweets:', pos_vs_neg['__label__4'])
+        st.write('Number negative tweets:', pos_vs_neg['__label__0'])
+        st.altair_chart(sentiment_plotline)
+    except ZeroDivisionError: # if no negative tweets
+        st.write('All postive tweets')
+except NameError: # if no queries have been made yet
+    pass
+
+st.caption('Authors : Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verdure')
