@@ -2,6 +2,7 @@
 
 Project carried out as part of the course of Cloud Computing 2022.
 Contributors: Hugo Favre, Loris Bulliard, Michel Daher Mansour, Alice Fabre-Verdure
+
 (reading time ~ 5 mins)
 ## Summary
 
